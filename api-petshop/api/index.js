@@ -7,8 +7,21 @@ const NaoEncontrado = require('./erros/NaoEncontrado')
 const CampoInvalido = require('./erros/CampoInvalido')
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos')
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
+const formatosAceitos = require('./Serializador').formatosAceitos
 
 app.use(bodyParser.json())
+
+app.use((requisicao, resposta, proximo) => {
+  const formatoRequisitado = requisicao.header('Accept')
+
+  if (formatosAceitos.indexOf(formatoRequisitado) === -1 ) {
+    resposta.status(406)
+    resposta.end()
+  }
+  resposta.setHeader('Content-type', formatoRequisitado)
+  proximo()
+
+})
 
 const roteador = require('./rotas/fornecedores')
 app.use('/api/fornecedores', roteador)

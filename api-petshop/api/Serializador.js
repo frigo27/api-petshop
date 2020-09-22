@@ -1,4 +1,4 @@
-const { ne } = require("sequelize/types/lib/operators")
+// const { ne } = require("sequelize/types/lib/operators")
 
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
 
@@ -15,4 +15,9 @@ class Serializador {
     throw new ValorNaoSuportado(this.contentType)
 
   }
+}
+
+module.exports = {
+  Serializador: Serializador,
+  formatosAceitos: ['application/json']
 }
